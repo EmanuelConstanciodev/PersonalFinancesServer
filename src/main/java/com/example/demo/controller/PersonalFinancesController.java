@@ -2,20 +2,27 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Category;
 import com.example.demo.repositories.CategoryRepository;
+import com.example.demo.services.CategoryService;
+import com.example.demo.utils.GenericResponseUtils;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.awt.geom.GeneralPath;
+
 @Controller
 public class PersonalFinancesController {
     @Autowired
-    CategoryRepository categoryRepository;
+    CategoryService categoryService;
 
     @PostMapping("/createCategory")
-    private void createCategory (@RequestBody Category category) {
-        categoryRepository.save(category);
-
+    private ResponseEntity<PersonalFinancesGenericResponse> createCategory (@RequestBody Category category) {
+        Category category1 = categoryService.createCategory(category);
+        return new ResponseEntity<>(GenericResponseUtils.personalFinancesGenericResponse(category1), HttpStatus.OK);
     }
 }
