@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import com.example.demo.exceptions.AlreadyExistACategoryWithTheSameNameException;
 import com.example.demo.model.Category;
 import com.example.demo.repositories.CategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,12 +16,13 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
 
     public Category createCategory(Category category) {
-        categoryRepository.save(category);
-        return category;
+        if (categoryRepository.existsCategoriesByName(category.getName())) {
+            throw new AlreadyExistACategoryWithTheSameNameException(category.getName());
+        }
+        return categoryRepository.save(category);
     }
 
     public List<Category> getCategories() {
-
        return categoryRepository.findAll();
     }
 }

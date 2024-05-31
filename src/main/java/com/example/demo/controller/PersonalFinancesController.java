@@ -10,9 +10,8 @@ import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.awt.geom.GeneralPath;
 import java.util.List;
@@ -24,8 +23,13 @@ public class PersonalFinancesController {
 
     @PostMapping("/createCategory")
     private ResponseEntity<PersonalFinancesGenericResponse> createCategory (@RequestBody Category category) {
-        Category category1 = categoryService.createCategory(category);
-        return new ResponseEntity<>(GenericResponseUtils.personalFinancesGenericResponse(category1), HttpStatus.OK);
+        Category responseCategory;
+        try {
+            responseCategory = categoryService.createCategory(category);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+        return new ResponseEntity<>(GenericResponseUtils.personalFinancesGenericResponse(responseCategory), HttpStatus.OK);
     }
 
     @GetMapping("/getCategories")
@@ -33,4 +37,9 @@ public class PersonalFinancesController {
         List<Category> categoryList = categoryService.getCategories();
         return new ResponseEntity<>(GenericResponseUtils.personalFinancesGenericResponse(categoryList), HttpStatus.OK);
     }
+
+//    @DeleteMapping("/deleteCategory/{categoryId}")
+//    private ResponseEntity<PersonalFinancesGenericResponse> deleteCategory (@PathVariable Long categoryId) {
+//
+//    }
 }
