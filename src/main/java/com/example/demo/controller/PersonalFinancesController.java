@@ -12,9 +12,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.awt.geom.GeneralPath;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class PersonalFinancesController {
@@ -36,6 +41,18 @@ public class PersonalFinancesController {
     private ResponseEntity<PersonalFinancesGenericResponse> getCategories () {
         List<Category> categoryList = categoryService.getCategories();
         return new ResponseEntity<>(GenericResponseUtils.personalFinancesGenericResponse(categoryList), HttpStatus.OK);
+    }
+
+
+    @GetMapping("/getCategory/{id}")
+    private ResponseEntity<PersonalFinancesGenericResponse> getCategoryById(@PathVariable Integer id) {
+        Optional<Category> category = categoryService.getCategoryById(id);
+        if (category.isPresent()) {
+            return new ResponseEntity<>(GenericResponseUtils.personalFinancesGenericResponse(category.get()), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(GenericResponseUtils.personalFinancesGenericResponse("Category not found"), HttpStatus.NOT_FOUND);
+        }
+
     }
 
 //    @DeleteMapping("/deleteCategory/{categoryId}")
