@@ -37,6 +37,20 @@ public class PersonalFinancesController {
         return new ResponseEntity<>(GenericResponseUtils.personalFinancesGenericResponse(responseCategory), HttpStatus.OK);
     }
 
+
+    @DeleteMapping("/deleteCategory/{id}")
+    private ResponseEntity<PersonalFinancesGenericResponse> deleteCategory (@PathVariable Integer id) {
+
+        try {
+            categoryService.deleteCategory(id);
+
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+        return new ResponseEntity<>( HttpStatus.OK);
+    }
+
+
     @GetMapping("/getCategories")
     private ResponseEntity<PersonalFinancesGenericResponse> getCategories () {
         List<Category> categoryList = categoryService.getCategories();
@@ -54,6 +68,10 @@ public class PersonalFinancesController {
         }
 
     }
+
+
+
+
 
 //    @DeleteMapping("/deleteCategory/{categoryId}")
 //    private ResponseEntity<PersonalFinancesGenericResponse> deleteCategory (@PathVariable Long categoryId) {

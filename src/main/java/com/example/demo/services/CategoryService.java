@@ -24,11 +24,16 @@ public class CategoryService {
     }
 
     public List<Category> getCategories() {
-       return categoryRepository.findAll();
+        return categoryRepository.findAll();
     }
 
     public Optional<Category> getCategoryById(Integer id) {
         return categoryRepository.findById(id);
 
+    }
+
+    public Integer deleteCategory(Integer id) {
+
+        categoryRepository.deleteById(id);
     }
 }
