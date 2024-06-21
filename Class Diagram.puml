@@ -1,0 +1,55 @@
+@startuml
+
+interface PaymentMethod {
+   List<OutFlow> getMoneyFlows(date, amount)
+}
+
+class Bought {
+   Category categoria
+   Date date
+   PaymentMethod paymentMethod
+   Double amount
+}
+
+class Category {
+    String name
+    String description
+}
+
+abstract class MoneyFlow {
+    Bought bought
+}
+
+class InFlow
+
+class OutFlow
+
+class VisaCredit
+
+class Liquid
+
+class MasterCredit
+
+class User {
+    String username
+    String password
+    List<MoneyFlow> moneyFlows
+    List<Category> category
+}
+
+VisaCredit -u-|> PaymentMethod
+Liquid -u-|> PaymentMethod
+MasterCredit -u-|> PaymentMethod
+
+Bought -u-> Category
+
+Bought -r-> PaymentMethod
+
+MoneyFlow -> Bought
+
+InFlow -u-|> MoneyFlow
+OutFlow -u-|> MoneyFlow
+
+User -->"*" MoneyFlow
+
+@enduml
