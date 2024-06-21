@@ -81,18 +81,18 @@ public class PersonalFinancesController {
         return new ResponseEntity<>(GenericResponseUtils.personalFinancesGenericResponse(responseOutFlow), HttpStatus.OK);
     }
 
-    @PutMapping("/editCategory/{id}")
-    private ResponseEntity<PersonalFinancesController> editCategory(@PathVariable Integer id, @RequestBody Category category) {
-
-        responseCategory = categoryService.editCategory(category);
-
-
-//            return new ResponseEntity<>(GenericResponseUtils.personalFinancesGenericResponse());
-
-//            return new ResponseEntity<>(GenericResponseUtils.personalFinancesGenericResponse("Category not found"), HttpStatus.NOT_FOUND);
-
-
-    }
+//    @PutMapping("/editCategory/{id}")
+//    private ResponseEntity<PersonalFinancesController> editCategory(@PathVariable Integer id, @RequestBody Category category) {
+//
+////        responseCategory = categoryService.editCategory(category);
+//
+//
+////            return new ResponseEntity<>(GenericResponseUtils.personalFinancesGenericResponse());
+//
+////            return new ResponseEntity<>(GenericResponseUtils.personalFinancesGenericResponse("Category not found"), HttpStatus.NOT_FOUND);
+//
+//
+//    }
 
 
 //    @DeleteMapping("/deleteCategory/{categoryId}")

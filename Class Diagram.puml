@@ -18,6 +18,8 @@ class Category {
 
 abstract class MoneyFlow {
     Bought bought
+    Date date
+    Double amount
 }
 
 class InFlow

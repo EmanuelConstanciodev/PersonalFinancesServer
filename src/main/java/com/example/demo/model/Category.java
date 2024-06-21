@@ -1,21 +1,14 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
-@Data
-@Entity
-@Table(name = "CATEGORY")
+@NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
-@Builder
-public class Category {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Getter
+@Setter
+@Entity
+public class Category extends PersistentEntity {
     @Column
     private String name;
     @Column

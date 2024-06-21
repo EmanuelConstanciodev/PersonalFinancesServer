@@ -29,22 +29,18 @@ public class CategoryService {
 
     public Optional<Category> getCategoryById(Integer id) {
         return categoryRepository.findById(id);
-
     }
-    public Category editCategory(Category newCategory) {
-        Optional<Category> categorySearch = categoryService.getCategoryById(id);
-        if (categorySearch.isPresent()) {
-            categorySearch.setName(newCategory.getName());
-        } else {
-            throw new RuntimeException("Category not found");
-        }
-        }
 
-    }
+//    public Category editCategory(Category newCategory) {
+//        Optional<Category> categorySearch = categoryService.getCategoryById(id);
+//        if (categorySearch.isPresent()) {
+//            categorySearch.setName(newCategory.getName());
+//        } else {
+//            throw new RuntimeException("Category not found");
+//        }
+//    }
+
     public void deleteCategory(Integer id) {
-
         categoryRepository.deleteById(id);
     }
-
-
 }
