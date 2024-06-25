@@ -14,7 +14,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CategoryService {
     @Autowired
-    private final CategoryRepository categoryRepository;
+    private CategoryRepository categoryRepository;
 
     public Category createCategory(Category category) {
         if (categoryRepository.existsCategoriesByName(category.getName())) {
@@ -27,7 +27,7 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    public Optional<Category> getCategoryById(Integer id) {
+    public Optional<Category> getCategoryById(Long id) {
         return categoryRepository.findById(id);
     }
 
@@ -40,7 +40,7 @@ public class CategoryService {
 //        }
 //    }
 
-    public void deleteCategory(Integer id) {
+    public void deleteCategory(Long id) {
         categoryRepository.deleteById(id);
     }
 }

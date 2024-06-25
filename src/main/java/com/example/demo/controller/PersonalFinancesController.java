@@ -27,8 +27,8 @@ import java.util.Optional;
 public class PersonalFinancesController {
     @Autowired
     CategoryService categoryService;
-    @Autowired
-    OutFlowService outFlowService;
+//    @Autowired
+//    OutFlowService outFlowService;
 
     @PostMapping("/createCategory")
     private ResponseEntity<PersonalFinancesGenericResponse> createCategory(@RequestBody Category category) {
@@ -44,7 +44,7 @@ public class PersonalFinancesController {
 
 
     @DeleteMapping("/deleteCategory/{id}")
-    private ResponseEntity<PersonalFinancesGenericResponse> deleteCategory(@PathVariable Integer id) {
+    private ResponseEntity<PersonalFinancesGenericResponse> deleteCategory(@PathVariable Long id) {
 
         try {
             categoryService.deleteCategory(id);
@@ -64,22 +64,22 @@ public class PersonalFinancesController {
 
 
     @GetMapping("/getCategory/{id}")
-    private ResponseEntity<PersonalFinancesGenericResponse> getCategoryById(@PathVariable Integer id) {
+    private ResponseEntity<PersonalFinancesGenericResponse> getCategoryById(@PathVariable Long id) {
         Optional<Category> category = categoryService.getCategoryById(id);
         return category.map(value -> new ResponseEntity<>(GenericResponseUtils.personalFinancesGenericResponse(value), HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(GenericResponseUtils.personalFinancesGenericResponse("Category not found"), HttpStatus.NOT_FOUND));
 
     }
 
-    @PostMapping("/createOutFlow")
-    private ResponseEntity<PersonalFinancesGenericResponse> createOutFlow(@RequestBody OutFlow outFlow) {
-        OutFlow responseOutFlow;
-        try {
-            responseOutFlow = outFlowService.createOutFlow(outFlow);
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
-        return new ResponseEntity<>(GenericResponseUtils.personalFinancesGenericResponse(responseOutFlow), HttpStatus.OK);
-    }
+//    @PostMapping("/createOutFlow")
+//    private ResponseEntity<PersonalFinancesGenericResponse> createOutFlow(@RequestBody OutFlow outFlow) {
+//        OutFlow responseOutFlow;
+//        try {
+//            responseOutFlow = outFlowService.createOutFlow(outFlow);
+//        } catch (Exception e) {
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+//        }
+//        return new ResponseEntity<>(GenericResponseUtils.personalFinancesGenericResponse(responseOutFlow), HttpStatus.OK);
+//    }
 
 //    @PutMapping("/editCategory/{id}")
 //    private ResponseEntity<PersonalFinancesController> editCategory(@PathVariable Integer id, @RequestBody Category category) {

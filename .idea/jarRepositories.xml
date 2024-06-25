@@ -7,14 +7,14 @@
       <option name="url" value="http://artifactory.claro.amx/artifactory/local-claro-maven-snapshot/" />
     </remote-repository>
     <remote-repository>
-      <option name="id" value="release" />
-      <option name="name" value="Release Repository" />
-      <option name="url" value="http://artifactory.claro.amx/artifactory/virtual-claro-maven/" />
-    </remote-repository>
-    <remote-repository>
       <option name="id" value="central" />
       <option name="name" value="Central Repository" />
       <option name="url" value="https://repo.maven.apache.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="release" />
+      <option name="name" value="Release Repository" />
+      <option name="url" value="http://artifactory.claro.amx/artifactory/virtual-claro-maven/" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="central" />

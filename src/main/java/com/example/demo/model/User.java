@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import lombok.*;
 
@@ -12,6 +13,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "personalfinances_user")
 public class User extends PersistentEntity {
     private String username;
     private String password;
@@ -21,6 +23,7 @@ public class User extends PersistentEntity {
     private List<OutFlow> outFlows;
 
 //    @OneToMany
+    @Transient
     private List<InFlow> inFlows;
 
     @OneToMany
