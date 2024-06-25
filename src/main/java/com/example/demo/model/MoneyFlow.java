@@ -6,10 +6,10 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Entity
+//@Entity
 @Setter
 @Getter
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 class MoneyFlow extends PersistentEntity {
     @ManyToOne
     private Bought bought;

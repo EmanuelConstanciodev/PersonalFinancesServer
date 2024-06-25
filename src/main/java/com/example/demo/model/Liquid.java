@@ -9,7 +9,7 @@ import java.util.List;
 @Setter
 @Getter
 @NoArgsConstructor
-@Entity
+//@Entity
 public class Liquid extends PersistentEntity implements PaymentMethod {
 
     @Override

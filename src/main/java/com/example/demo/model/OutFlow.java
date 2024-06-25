@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @NoArgsConstructor
-@Entity
+//@Entity
 public class OutFlow extends MoneyFlow {
 
 }

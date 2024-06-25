@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Transient;
 import lombok.*;
 
 import java.util.List;
@@ -15,10 +16,11 @@ public class User extends PersistentEntity {
     private String username;
     private String password;
 
-    @OneToMany
+    @Transient
+//    @OneToMany
     private List<OutFlow> outFlows;
 
-    @OneToMany
+//    @OneToMany
     private List<InFlow> inFlows;
 
     @OneToMany

@@ -6,6 +6,6 @@ import lombok.*;
 @Setter
 @Getter
 @NoArgsConstructor
-@Entity
+//@Entity
 public class InFlow extends MoneyFlow {
 }

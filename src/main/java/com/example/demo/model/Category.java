@@ -9,8 +9,6 @@ import lombok.*;
 @Setter
 @Entity
 public class Category extends PersistentEntity {
-    @Column
     private String name;
-    @Column
     private String description;
 }

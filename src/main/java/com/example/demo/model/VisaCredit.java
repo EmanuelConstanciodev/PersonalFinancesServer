@@ -9,7 +9,7 @@ import java.util.List;
 @Setter
 @Getter
 @NoArgsConstructor
-@Entity
+//@Entity
 public class VisaCredit extends PersistentEntity implements PaymentMethod {
     @Override
     public List<OutFlow> getMoneyFlows(LocalDateTime dateTime, Double amount) {
