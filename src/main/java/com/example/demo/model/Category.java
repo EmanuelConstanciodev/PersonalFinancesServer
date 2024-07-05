@@ -8,6 +8,7 @@ import lombok.*;
 @Getter
 @Setter
 @Entity
+@Table(name = "CATEGORY")
 public class Category extends PersistentEntity {
     private String name;
     private String description;

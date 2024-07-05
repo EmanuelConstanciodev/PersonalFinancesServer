@@ -13,7 +13,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "personalfinances_user")
+@Table(name = "\"USER\"")
 public class User extends PersistentEntity {
     private String username;
     private String password;
