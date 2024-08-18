@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.example.demo.model.bought.Category;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -20,11 +21,7 @@ public class User extends PersistentEntity {
 
     @Transient
 //    @OneToMany
-    private List<OutFlow> outFlows;
-
-//    @OneToMany
-    @Transient
-    private List<InFlow> inFlows;
+    private List<MoneyFlow> outFlows;
 
     @OneToMany
     private List<Category> categories;

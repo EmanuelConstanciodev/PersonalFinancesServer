@@ -1,5 +1,6 @@
-package com.example.demo.model;
+package com.example.demo.model.bought;
 
+import com.example.demo.model.PersistentEntity;
 import jakarta.persistence.*;
 import lombok.*;
 

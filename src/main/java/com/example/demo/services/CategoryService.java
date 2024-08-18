@@ -1,7 +1,6 @@
 package com.example.demo.services;
 
-import com.example.demo.exceptions.AlreadyExistACategoryWithTheSameNameException;
-import com.example.demo.model.Category;
+import com.example.demo.model.bought.Category;
 import com.example.demo.repositories.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,7 @@ public class CategoryService {
 
     public Category createCategory(Category category) {
         if (categoryRepository.existsCategoriesByName(category.getName())) {
-            throw new AlreadyExistACategoryWithTheSameNameException(category.getName());
+            throw new RuntimeException(category.getName());
         }
         return categoryRepository.save(category);
     }

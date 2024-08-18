@@ -2,7 +2,7 @@ package com.example.demo.services;
 
 
 //@Service
-public class OutFlowService {
+public class MoneyFlowService {
 
 //    @Autowired
 //    private final OutFlowRepository outFlowRepository;
