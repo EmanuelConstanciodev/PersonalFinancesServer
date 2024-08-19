@@ -19,7 +19,7 @@ public class Liquid extends PersistentEntity implements PaymentMethod {
         return Collections.singletonList(MoneyFlow.builder()
             .flowType(FlowType.OUT_FLOW)
             .amount(bought.getAmount())
-            .dateTime(bought.getDate())
+            .date(bought.getDate())
             .bought(bought)
             .build());
     }

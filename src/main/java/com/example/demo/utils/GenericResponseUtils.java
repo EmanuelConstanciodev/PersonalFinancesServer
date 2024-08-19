@@ -1,6 +1,5 @@
 package com.example.demo.utils;
 
-import com.example.demo.controller.PersonalFinancesGenericResponse;
 import lombok.experimental.UtilityClass;
 import org.springframework.http.HttpStatus;
 

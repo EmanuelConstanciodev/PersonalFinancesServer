@@ -1,7 +1,7 @@
 @startuml
 
 interface PaymentMethod {
-   List<OutFlow> getMoneyFlows(date, amount)
+   List<OutFlow> getAsociatedMoneyFlows(Bought bought)
 }
 
 class Bought {
@@ -9,49 +9,73 @@ class Bought {
    Date date
    PaymentMethod paymentMethod
    Double amount
+   User user
+
+   List<MoneyFlow> generateAsociatedMoneyFlows()
+
 }
 
 class Category {
     String name
     String description
+    User user
 }
 
-abstract class MoneyFlow {
+class MoneyFlow {
     Bought bought
     Date date
     Double amount
+    FlowType flowType
+    User user
 }
 
-class InFlow
 
-class OutFlow
 
-class VisaCredit
 
-class Liquid
 
-class MasterCredit
+class Credit {
+    Integer installments
+    Card card
+    List<OutFlow> getAsociatedMoneyFlows(Bought bought)
+
+}
+
+interface Card {
+  LocalDate getNextClosingDate(LocalDate date)
+  LocalDate getNextExpirationDate(LocalDate date)
+}
+
+class Liquid {
+    List<OutFlow> getAsociatedMoneyFlows(Bought bought)
+}
+
 
 class User {
-    String username
+    String email
     String password
-    List<MoneyFlow> moneyFlows
-    List<Category> category
+    String name
+    String surname
+
 }
 
-VisaCredit -u-|> PaymentMethod
+enum FlowType {
+    IN_FLOW,
+    OUT_FLOW
+}
+
+Credit -u-|> PaymentMethod
 Liquid -u-|> PaymentMethod
-MasterCredit -u-|> PaymentMethod
 
 Bought -u-> Category
 
-Bought -r-> PaymentMethod
+Bought -u-> PaymentMethod
 
-MoneyFlow -> Bought
+MoneyFlow -u-> Bought
+Credit -d-> Card
 
-InFlow -u-|> MoneyFlow
-OutFlow -u-|> MoneyFlow
-
-User -->"*" MoneyFlow
+MoneyFlow -l-> User
+Bought -l-> User
+Category -l-> User
+MoneyFlow -r-> FlowType
 
 @enduml

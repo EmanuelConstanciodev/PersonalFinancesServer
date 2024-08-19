@@ -1,10 +1,7 @@
 package com.example.demo.model;
 
 import com.example.demo.model.bought.Category;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
@@ -16,13 +13,9 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "\"USER\"")
 public class User extends PersistentEntity {
-    private String username;
+    private String name;
+    private String surname;
+    private String email;
+    @Column(nullable = false)
     private String password;
-
-    @Transient
-//    @OneToMany
-    private List<MoneyFlow> outFlows;
-
-    @OneToMany
-    private List<Category> categories;
 }

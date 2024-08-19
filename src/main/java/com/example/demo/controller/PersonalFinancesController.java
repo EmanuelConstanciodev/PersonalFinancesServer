@@ -11,6 +11,7 @@ import com.example.demo.utils.GenericResponseUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -79,19 +80,19 @@ public class PersonalFinancesController {
 //        return new ResponseEntity<>(GenericResponseUtils.personalFinancesGenericResponse(responseOutFlow), HttpStatus.OK);
 //    }
 
-    @PostMapping("/bought")
-    public ResponseEntity<Void> createBought (Bought bought) {
-        // Obtener el usuario autenticado desde el contexto de seguridad
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        // Setear el usuario en la compra
-        bought.setUser(user);
-
-        // Lógica para guardar la compra (bought)
-        boughtService.saveBoughtAndGenerateMoneyFlows(bought);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body("Compra guardada exitosamente");
-    }
+//    @PostMapping("/bought")
+//    public ResponseEntity<Void> createBought (Bought bought) {
+//        // Obtener el usuario autenticado desde el contexto de seguridad
+//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//
+//        // Setear el usuario en la compra
+//        bought.setUser(user);
+//
+//        // Lógica para guardar la compra (bought)
+//        boughtService.saveBoughtAndGenerateMoneyFlows(bought);
+//
+//        return ResponseEntity.status(HttpStatus.CREATED).body("Compra guardada exitosamente");
+//    }
 
 
 
