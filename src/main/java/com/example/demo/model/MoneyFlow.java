@@ -8,21 +8,19 @@ import lombok.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-//@Entity
+@Entity
 @Setter
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
-//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class MoneyFlow extends PersistentEntity {
     @ManyToOne
     private Bought bought;
-
     private LocalDate date;
-
     private Double amount;
-
     @Enumerated(EnumType.STRING)
     private FlowType flowType;
-
+    @ManyToOne
     private User user;
 }

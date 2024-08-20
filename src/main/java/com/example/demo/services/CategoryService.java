@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import com.example.demo.model.User;
 import com.example.demo.model.bought.Category;
 import com.example.demo.repositories.CategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -41,5 +42,9 @@ public class CategoryService {
 
     public void deleteCategory(Long id) {
         categoryRepository.deleteById(id);
+    }
+
+    public List<Category> getCategoriesOfAnUser(User user) {
+        return categoryRepository.findAllByUser(user);
     }
 }

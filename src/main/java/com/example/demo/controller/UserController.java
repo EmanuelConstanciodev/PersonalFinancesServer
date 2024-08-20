@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/users")
+@RequestMapping("/user")
 public class UserController {
   @Autowired
   private UserRepository userRepository;
@@ -42,8 +42,8 @@ public class UserController {
     }
 
     User newUser = new User();
-    newUser.setFirstName(userDTO.getFirstName());
-    newUser.setLastName(userDTO.getLastName());
+    newUser.setName(userDTO.getFirstName());
+    newUser.setSurname(userDTO.getLastName());
     newUser.setEmail(userDTO.getEmail());
     newUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 
