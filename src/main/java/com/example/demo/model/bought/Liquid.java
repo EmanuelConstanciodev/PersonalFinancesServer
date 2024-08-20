@@ -3,6 +3,8 @@ package com.example.demo.model.bought;
 import com.example.demo.model.FlowType;
 import com.example.demo.model.MoneyFlow;
 import com.example.demo.model.PersistentEntity;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
 import lombok.*;
 
 import java.util.Collections;
@@ -11,8 +13,9 @@ import java.util.List;
 @Setter
 @Getter
 @NoArgsConstructor
-//@Entity
-public class Liquid extends PersistentEntity implements PaymentMethod {
+@Entity
+@DiscriminatorValue("LIQUID")
+public class Liquid extends PaymentMethod {
 
     @Override
     public List<MoneyFlow> getAsociatedMoneyFlows(Bought bought) {

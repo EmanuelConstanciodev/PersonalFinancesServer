@@ -9,7 +9,6 @@ import jakarta.persistence.Transient;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Setter
@@ -21,10 +20,14 @@ import java.util.List;
 public class Bought extends PersistentEntity {
     @ManyToOne
     private Category category;
+
     private LocalDate date;
-    @Transient
+
+    @ManyToOne
     private PaymentMethod paymentMethod;
+
     private Double amount;
+
     @ManyToOne
     private User user;
 

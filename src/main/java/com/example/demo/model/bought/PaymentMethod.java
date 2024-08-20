@@ -1,13 +1,20 @@
 package com.example.demo.model.bought;
 
-import com.example.demo.model.MoneyFlow;
-import jakarta.persistence.MappedSuperclass;
+import com.example.demo.model.PersistentEntity;
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
+@Setter
+@Getter
+@NoArgsConstructor
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "payment_type")
+public abstract class PaymentMethod extends PersistentEntity implements PaymentMethodInterface  {
 
-@MappedSuperclass
-public interface PaymentMethod {
-    List<MoneyFlow> getAsociatedMoneyFlows(Bought bought);
 }

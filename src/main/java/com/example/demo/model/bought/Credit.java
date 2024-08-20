@@ -3,6 +3,9 @@ package com.example.demo.model.bought;
 import com.example.demo.model.FlowType;
 import com.example.demo.model.MoneyFlow;
 import com.example.demo.model.PersistentEntity;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Transient;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -12,9 +15,11 @@ import java.util.List;
 @Setter
 @Getter
 @NoArgsConstructor
-//@Entity
-public class Credit extends PersistentEntity implements PaymentMethod {
+@Entity
+@DiscriminatorValue("CREDIT")
+public class Credit extends PaymentMethod {
     private Integer installments;
+    @Transient
     private Card card;
 
     @Override
