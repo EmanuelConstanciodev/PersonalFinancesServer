@@ -4,8 +4,11 @@ import com.example.demo.config.JwtUtil;
 import com.example.demo.dto.LoginDTO;
 import com.example.demo.dto.LoginResponse;
 import com.example.demo.dto.UserDTO;
+import com.example.demo.exceptions.EmailAlreadyInUseException;
 import com.example.demo.model.User;
 import com.example.demo.repositories.UserRepository;
+import com.example.demo.services.UserService;
+import com.mysql.cj.log.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,37 +37,30 @@ public class UserController {
 
   @Autowired
   private JwtUtil jwtUtil; // Si decides usar JWT para manejar las sesiones
+  @Autowired
+  private UserService userService;
 
   @PostMapping("/register")
-  public ResponseEntity<String> registerUser(@RequestBody UserDTO userDTO) {
-    if (userRepository.findByEmail(userDTO.getEmail()).isPresent()) {
-      return ResponseEntity.status(HttpStatus.CONFLICT).body("El correo ya está en uso.");
+  public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO) {
+    try {
+      userService.register(userDTO);
+    } catch (EmailAlreadyInUseException e) {
+      return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
-
-    User newUser = new User();
-    newUser.setName(userDTO.getFirstName());
-    newUser.setSurname(userDTO.getLastName());
-    newUser.setEmail(userDTO.getEmail());
-    newUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-
-    userRepository.save(newUser);
-    return ResponseEntity.status(HttpStatus.CREATED).body("Usuario registrado exitosamente.");
+    LoginDTO loginDTO = LoginDTO.builder()
+            .email(userDTO.getEmail())
+            .password(userDTO.getPassword())
+            .build();
+    String jwt = userService.login(loginDTO);
+    return ResponseEntity.ok(new LoginResponse(jwt));
   }
 
   @PostMapping("/login")
   public ResponseEntity<?> loginUser(@RequestBody LoginDTO loginDTO) {
+
     try {
-      Authentication authentication = authenticationManager.authenticate(
-          new UsernamePasswordAuthenticationToken(
-              loginDTO.getEmail(), loginDTO.getPassword())
-      );
-
-      // Generar token JWT si la autenticación es exitosa
-      UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-      String jwt = jwtUtil.generateToken(userDetails);
-
+      String jwt = userService.login(loginDTO);
       return ResponseEntity.ok(new LoginResponse(jwt));
-
     } catch (BadCredentialsException e) {
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales incorrectas.");
     }
