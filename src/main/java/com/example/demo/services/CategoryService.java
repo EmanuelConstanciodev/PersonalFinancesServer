@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import com.example.demo.exceptions.CategoryNotFoundException;
 import com.example.demo.model.User;
 import com.example.demo.model.bought.Category;
 import com.example.demo.repositories.CategoryRepository;
@@ -27,8 +28,9 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    public Optional<Category> getCategoryById(Long id) {
-        return categoryRepository.findById(id);
+    public Category getCategoryById(Long id) {
+        return categoryRepository.findById(id)
+            .orElseThrow(() -> new CategoryNotFoundException());
     }
 
 //    public Category editCategory(Category newCategory) {

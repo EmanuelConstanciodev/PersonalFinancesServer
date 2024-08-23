@@ -1,13 +1,11 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.BoughtDTO;
 import com.example.demo.dto.MoneyFlowsOfABoughtResponseDTO;
+import com.example.demo.model.MoneyFlow;
 import com.example.demo.model.User;
-import com.example.demo.model.bought.Bought;
 import com.example.demo.model.bought.Category;
-import com.example.demo.services.BoughtService;
-import com.example.demo.services.CategoryService;
-import com.example.demo.services.MoneyFlowService;
-import com.example.demo.services.UserService;
+import com.example.demo.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +20,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class PersonalFinancesController {
@@ -37,8 +34,6 @@ public class PersonalFinancesController {
 
     @Autowired
     UserService userService;
-
-    // CRUD CATEGORY
 
     @PostMapping("/category")
     private ResponseEntity<Category> createCategory(@RequestBody Category category, @AuthenticationPrincipal UserDetails userDetails) {
@@ -72,8 +67,8 @@ public class PersonalFinancesController {
     }
 
     @GetMapping("/category/{id}")
-    private ResponseEntity<Optional<Category>> getCategoryById(@PathVariable Long id) {
-        Optional<Category> category = categoryService.getCategoryById(id);
+    private ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
+        Category category = categoryService.getCategoryById(id);
         return new ResponseEntity<>(category, HttpStatus.OK);
 
     }
@@ -90,15 +85,9 @@ public class PersonalFinancesController {
 //    }
 
     @PostMapping("/bought")
-    public ResponseEntity<String> createBought (Bought bought, @AuthenticationPrincipal UserDetails userDetails) {
-        // Lógica para agregar la compra relacionada al usuario
+    public ResponseEntity<String> createBought (@RequestBody BoughtDTO boughtDTO, @AuthenticationPrincipal UserDetails userDetails) {
         User user = userService.obtainUserByEmail(userDetails.getUsername());
-
-        // Setear el usuario en la compra
-        bought.setUser(user);
-        // Lógica para guardar la compra (bought)
-        boughtService.saveBoughtAndGenerateMoneyFlows(bought);
-
+        boughtService.saveBoughtAndGenerateMoneyFlows(boughtDTO, user);
         return ResponseEntity.status(HttpStatus.CREATED).body("Compra guardada exitosamente");
     }
 
@@ -107,6 +96,13 @@ public class PersonalFinancesController {
     public ResponseEntity<MoneyFlowsOfABoughtResponseDTO> getMoneyFlowsOfABought(@PathVariable Long boughtId) {
 
         return null;
+    }
+
+    @GetMapping("/moneyFlows")
+    public ResponseEntity<List<MoneyFlow>> getMoneyFlowsOfABought(@AuthenticationPrincipal UserDetails userDetails) {
+        User user = userService.obtainUserByEmail(userDetails.getUsername());
+        List<MoneyFlow> moneyFlowList = moneyFlowService.getMoneyFlowsOfAnUser(user);
+        return new ResponseEntity<>(moneyFlowList, HttpStatus.OK);
     }
 
 //    @PutMapping("/category/{id}")

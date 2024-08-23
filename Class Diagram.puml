@@ -78,4 +78,8 @@ Bought -l-> User
 Category -l-> User
 MoneyFlow -r-> FlowType
 
+HSBC -u-|> Card
+BBVA -u-|> Card
+GAL -u-|> Card
+
 @enduml
