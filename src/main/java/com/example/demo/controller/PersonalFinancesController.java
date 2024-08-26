@@ -1,11 +1,13 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.BoughtDTO;
-import com.example.demo.dto.MoneyFlowsOfABoughtResponseDTO;
+import com.example.demo.config.Converter;
+import com.example.demo.dto.*;
 import com.example.demo.model.MoneyFlow;
 import com.example.demo.model.User;
+import com.example.demo.model.bought.Card;
 import com.example.demo.model.bought.Category;
 import com.example.demo.services.*;
+import org.hibernate.sql.ast.tree.expression.Summarization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +35,9 @@ public class PersonalFinancesController {
     MoneyFlowService moneyFlowService;
 
     @Autowired
+    CardService cardService;
+
+    @Autowired
     UserService userService;
 
     @PostMapping("/category")
@@ -50,7 +55,6 @@ public class PersonalFinancesController {
 
     @DeleteMapping("/category/{id}")
     private ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
-
         try {
             categoryService.deleteCategory(id);
         } catch (Exception e) {
@@ -60,9 +64,9 @@ public class PersonalFinancesController {
     }
 
     @GetMapping("/categories")
-    private ResponseEntity<List<Category>> getCategories(@AuthenticationPrincipal UserDetails userDetails) {
+    private ResponseEntity<List<CategoryDTO>> getCategories(@AuthenticationPrincipal UserDetails userDetails) {
         User user = userService.obtainUserByEmail(userDetails.getUsername());
-        List<Category> categoryList = categoryService.getCategoriesOfAnUser(user);
+        List<CategoryDTO> categoryList = categoryService.getCategoriesDTOOfAnUser(user);
         return new ResponseEntity<>(categoryList, HttpStatus.OK);
     }
 
@@ -70,31 +74,31 @@ public class PersonalFinancesController {
     private ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
         Category category = categoryService.getCategoryById(id);
         return new ResponseEntity<>(category, HttpStatus.OK);
-
     }
 
-//    @PostMapping("/inFlow")
-//    private ResponseEntity<PersonalFinancesGenericResponse> createOutFlow(@RequestBody OutFlow outFlow) {
-//        OutFlow responseOutFlow;
-//        try {
-//            responseOutFlow = outFlowService.createOutFlow(outFlow);
-//        } catch (Exception e) {
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-//        }
-//        return new ResponseEntity<>(GenericResponseUtils.personalFinancesGenericResponse(responseOutFlow), HttpStatus.OK);
-//    }
+    @GetMapping("/cards")
+    private ResponseEntity<List<CardDTO>> getCards(@AuthenticationPrincipal UserDetails userDetails) {
+        User user = userService.obtainUserByEmail(userDetails.getUsername());
+        List<CardDTO> cardList = cardService.getCards(user);
+        return new ResponseEntity<>(cardList, HttpStatus.OK);
+    }
 
     @PostMapping("/bought")
-    public ResponseEntity<String> createBought (@RequestBody BoughtDTO boughtDTO, @AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<Void> createBought (@RequestBody BoughtDTO boughtDTO, @AuthenticationPrincipal UserDetails userDetails) {
         User user = userService.obtainUserByEmail(userDetails.getUsername());
         boughtService.saveBoughtAndGenerateMoneyFlows(boughtDTO, user);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Compra guardada exitosamente");
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @PostMapping("/income")
+    public ResponseEntity<Void> createIncome (@RequestBody IncomeDTO incomeDTO, @AuthenticationPrincipal UserDetails userDetails) {
+        User user = userService.obtainUserByEmail(userDetails.getUsername());
+        moneyFlowService.createInFlow(incomeDTO, user);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
 
     @GetMapping("/moneyFlow/{boughtId}")
     public ResponseEntity<MoneyFlowsOfABoughtResponseDTO> getMoneyFlowsOfABought(@PathVariable Long boughtId) {
-
         return null;
     }
 
@@ -105,17 +109,12 @@ public class PersonalFinancesController {
         return new ResponseEntity<>(moneyFlowList, HttpStatus.OK);
     }
 
-//    @PutMapping("/category/{id}")
-//    private ResponseEntity<PersonalFinancesController> editCategory(@PathVariable Integer id, @RequestBody Category category) {
-//
-////        responseCategory = categoryService.editCategory(category);
-//
-//
-////            return new ResponseEntity<>(GenericResponseUtils.personalFinancesGenericResponse());
-//
-////            return new ResponseEntity<>(GenericResponseUtils.personalFinancesGenericResponse("Category not found"), HttpStatus.NOT_FOUND);
-//
-//
-//    }
-
+    @GetMapping("/sumAmount")
+    public ResponseEntity<SumAmountResponseDTO> getSumAmount(@RequestBody SumAmountRequestDTO sumAmountRequestDTO, @AuthenticationPrincipal UserDetails userDetails) {
+        User user = userService.obtainUserByEmail(userDetails.getUsername());
+        SumAmountResponseDTO sumAmountResponseDTO = SumAmountResponseDTO.builder()
+            .sumAmount(moneyFlowService.getSumAmountOfAYearMonthCategoryAndUser(sumAmountRequestDTO, user))
+            .build();
+        return new ResponseEntity<>(sumAmountResponseDTO, HttpStatus.OK);
+    }
 }

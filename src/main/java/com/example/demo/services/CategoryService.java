@@ -1,5 +1,7 @@
 package com.example.demo.services;
 
+import com.example.demo.config.Converter;
+import com.example.demo.dto.CategoryDTO;
 import com.example.demo.exceptions.CategoryNotFoundException;
 import com.example.demo.model.User;
 import com.example.demo.model.bought.Category;
@@ -9,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -33,20 +35,19 @@ public class CategoryService {
             .orElseThrow(() -> new CategoryNotFoundException());
     }
 
-//    public Category editCategory(Category newCategory) {
-//        Optional<Category> categorySearch = categoryService.getCategoryById(id);
-//        if (categorySearch.isPresent()) {
-//            categorySearch.setName(newCategory.getName());
-//        } else {
-//            throw new RuntimeException("Category not found");
-//        }
-//    }
-
     public void deleteCategory(Long id) {
         categoryRepository.deleteById(id);
+    }
+
+    public List<CategoryDTO> getCategoriesDTOOfAnUser(User user) {
+        return getCategoriesOfAnUser(user)
+            .stream()
+            .map(category -> Converter.convertToDTO(category))
+            .collect(Collectors.toList());
     }
 
     public List<Category> getCategoriesOfAnUser(User user) {
         return categoryRepository.findAllByUser(user);
     }
+
 }

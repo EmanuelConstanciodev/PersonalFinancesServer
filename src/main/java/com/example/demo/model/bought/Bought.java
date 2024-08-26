@@ -51,7 +51,7 @@ public class Bought extends PersistentEntity {
             moneyFlows.add(MoneyFlow.builder()
                 .date(nextMoneyFlowDate)
                 .flowType(FlowType.OUT_FLOW)
-                .amount(amountPerInstallment)
+                .amount(-amountPerInstallment)
                 .bought(this)
                 .user(user)
                 .build());
@@ -64,7 +64,7 @@ public class Bought extends PersistentEntity {
     private List<MoneyFlow> generateLiquidMoneyFlow() {
         return Collections.singletonList(MoneyFlow.builder()
             .flowType(FlowType.OUT_FLOW)
-            .amount(amount)
+            .amount(-amount)
             .date(date)
             .bought(this)
             .build());

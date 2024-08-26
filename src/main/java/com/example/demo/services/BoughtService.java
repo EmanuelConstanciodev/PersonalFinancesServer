@@ -19,7 +19,7 @@ public class BoughtService {
   private BoughtRepository boughtRepository;
 
   @Autowired
-  private MoneyFlowRepository moneyFlowRepository;
+  private MoneyFlowService moneyFlowService;
 
   @Autowired
   private CategoryService categoryService;
@@ -44,6 +44,7 @@ public class BoughtService {
     boughtRepository.save(bought);
 
     List<MoneyFlow> moneyFlows = bought.generateAsociatedMoneyFlows();
-    moneyFlows.forEach(moneyFlow -> moneyFlowRepository.save(moneyFlow));
+    moneyFlows.forEach(moneyFlow -> moneyFlowService.saveMoneyFlow(moneyFlow));
+
   }
 }
