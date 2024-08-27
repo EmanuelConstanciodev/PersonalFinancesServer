@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 
 import com.example.demo.model.bought.Bought;
+import com.example.demo.model.bought.Category;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,4 +24,6 @@ public class MoneyFlow extends PersistentEntity {
     private FlowType flowType;
     @ManyToOne
     private User user;
+    @ManyToOne
+    private Category category;
 }

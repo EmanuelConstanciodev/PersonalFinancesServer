@@ -52,6 +52,7 @@ public class Bought extends PersistentEntity {
                 .date(nextMoneyFlowDate)
                 .flowType(FlowType.OUT_FLOW)
                 .amount(-amountPerInstallment)
+                .category(category)
                 .bought(this)
                 .user(user)
                 .build());

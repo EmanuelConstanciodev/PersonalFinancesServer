@@ -15,7 +15,7 @@ import java.util.List;
 public interface MoneyFlowRepository extends JpaRepository<MoneyFlow, Long> {
   List<MoneyFlow> findAllByUser(User user);
 
-  @Query("SELECT SUM(m.amount) FROM MoneyFlow m WHERE FUNCTION('YEAR', m.date) = :year AND FUNCTION('MONTH', m.date) = :month AND m.category = :category AND m.user = :user")
+  @Query("SELECT SUM(m.amount) FROM MoneyFlow m WHERE YEAR(m.date) = :year AND MONTH(m.date) = :month AND m.category = :category AND m.user = :user")
   Double getSumAmountOfAYearMonthCategoryAndUser(@Param("year") int year,
                                                  @Param("month") int month,
                                                  @Param("category") Category category,

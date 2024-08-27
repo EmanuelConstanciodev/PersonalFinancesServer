@@ -22,9 +22,6 @@ public class MoneyFlowService {
   @Autowired
   private CategoryService categoryService;
 
-  @Autowired
-  private MonthlyRegisterService monthlyRegisterService;
-
   public List<MoneyFlow> getMoneyFlowsOfAnUser(User user) {
     return moneyFlowRepository.findAllByUser(user);
   }
