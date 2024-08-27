@@ -9,6 +9,7 @@ import com.example.demo.model.User;
 import com.example.demo.repositories.UserRepository;
 import com.example.demo.services.UserService;
 import com.mysql.cj.log.Log;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,12 +42,8 @@ public class UserController {
   private UserService userService;
 
   @PostMapping("/register")
-  public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO) {
-    try {
-      userService.register(userDTO);
-    } catch (EmailAlreadyInUseException e) {
-      return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-    }
+  public ResponseEntity<?> registerUser(@RequestBody @Valid UserDTO userDTO) {
+    userService.register(userDTO);
     LoginDTO loginDTO = LoginDTO.builder()
             .email(userDTO.getEmail())
             .password(userDTO.getPassword())
